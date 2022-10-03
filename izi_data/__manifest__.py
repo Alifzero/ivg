@@ -60,20 +60,20 @@
         # 'views/assets.xml',
 
         # onboarding action
-        # 'views/action/action_onboarding.xml',
+#         'views/action/action_onboarding.xml',
 
         # action menu
         'views/action/action_menu.xml',
 
         # action onboarding
-        # 'views/action/action_onboarding.xml',
+#         'views/action/action_onboarding.xml',
 
         # menu
-        # 'views/menu.xml',
+        'views/menu.xml',
 
         # security
         'security/ir.model.access.csv',
-        # 'security/ir.rule.csv',
+#         'security/ir.rule.csv',
 
         # data
     ],
