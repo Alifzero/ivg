@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="anita_list_res" name="anita_list_res" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/css" href='/anita_dark_theme/static/css/style.scss'/>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

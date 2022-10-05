@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <div t-name="anita_theme_base.customizer" class="dropdown">
+        <a role="button" href="#" class="customizer-toggle dropdown-toggle o-no-caret o-dropdown--narrow">
+            <span class="fa fa-cog fa-fw"/>
+        </a>
+    </div>
+
+</templates>
