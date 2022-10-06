@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="version_control_form_view">
+        <field name="name">version.control.form</field>
+        <field name="model">version.control</field>
+        <field name="arch" type="xml">
+            <form string="Version Control">
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="version_number"/>
+                        <field name="release_date"/>
+                        <field name="force_update" widget="radio"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="version_control_tree_views">
+        <field name="name">version.control.tree</field>
+        <field name="model">version.control</field>
+        <field name="arch" type="xml">
+            <tree string="Versions">
+                <field name="name"/>
+                <field name="version_number"/>
+                <field name="release_date"/>
+                <field name="force_update"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_view_versions" model="ir.actions.act_window">
+        <field name="name">Versions</field>
+        <field name="res_model">version.control</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="version_control_tree_views"/>
+    </record>
+
+
+    <menuitem action="action_view_versions"
+        id="menu_action_version"
+        parent="crm.menu_crm_config_lead"
+        sequence="14"/>
+</odoo>
