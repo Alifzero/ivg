@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+        <record id="crm_sales_task_personal" model="ir.rule">
+            <field name="name">Personal Sales Task</field>
+            <field ref="model_crm_sales_task" name="model_id"/>
+            <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+        <record id="crm_sales_task_company_rule" model="ir.rule">
+            <field name="name">CRM Sales Task Multi-Company</field>
+            <field name="model_id" ref="model_crm_sales_task"/>
+            <field name="domain_force">['|',('lead_id.company_id','=',False),('lead_id.company_id','child_of',[user.company_id.id])]</field>
+        </record>
+        <record id="crm_sales_task_all" model="ir.rule">
+            <field name="name">All Sales Task</field>
+            <field ref="model_crm_sales_task" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"/>
+        </record>
+    </data>
+</odoo>

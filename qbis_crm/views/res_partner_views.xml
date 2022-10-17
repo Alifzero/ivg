@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+    <record model="ir.ui.view" id="view_partner_form_inherit_qibt">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="website" position="after">
+                <field name="is_sales_person"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_contact_sales_person" model="ir.actions.act_window">
+        <field name="name">Sales Person</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="context">{'default_is_sales_person': 1}</field>
+        <field name="domain">[('is_sales_person', '=', True)]</field>
+    </record>
+
+    <menuitem action="action_contact_sales_person"
+        id="menu_action_sales_person"
+        parent="crm.menu_crm_config_lead"
+        sequence="13"/>
+</odoo>

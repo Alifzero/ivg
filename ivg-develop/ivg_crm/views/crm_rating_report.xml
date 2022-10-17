@@ -1,0 +1,25 @@
+<odoo>
+	<data>
+
+		<record id="rating_rating_action_crm_report" model="ir.actions.act_window">
+			<field name="name">Customer Ratings</field>
+			<field name="res_model">rating.rating</field>
+			<field name="view_mode">kanban,tree,pivot,graph,form</field>
+			<field name="domain">[('res_model','=','crm.lead')]</field>
+			<field name="search_view_id" ref="rating.rating_rating_view_search"/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_empty_folder">
+					No customer ratings yet
+				</p><p>
+					Let's wait for your customers to manifest themselves.
+				</p>
+			</field>
+			<field name="context">{'search_default_last_month': 1}</field>
+		</record>
+
+		<menuitem id="rating_rating_menu_crm"
+            action="rating_rating_action_crm_report"
+            parent="crm.crm_menu_report"
+            sequence="40"/>
+	</data>
+</odoo>

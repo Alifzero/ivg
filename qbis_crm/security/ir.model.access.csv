@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_sales_task,access_crm_sales_task,model_crm_sales_task,base.group_user,1,1,1,1
+access_crm_industry,access_crm_industry,model_crm_industry,base.group_user,1,1,1,1
+access_version_control,access_version_control,model_version_control,base.group_user,1,1,1,1
