@@ -16,5 +16,5 @@ class ResPartner(models.Model):
         action['view_mode'] = 'tree'
         action['views'] =[(self.env.ref('ivg_crm.view_crm_lead_line_tree').id, 'tree')] 
         action['domain'] = [('partner_id', '=', self.id)]
-        action['context'] = {'create': 0}
+        action['context'] = {'create': 0, 'edit': 0}
         return action

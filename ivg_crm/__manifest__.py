@@ -20,6 +20,7 @@
 		'views/crm_lead_line_view.xml',
 		'views/res_partner_view.xml',
 		'views/crm_rating_report.xml',
+		'views/ir_attachment_view.xml',
 		'report/crm_product_report_views.xml',
 		],
 	"auto_install": False,

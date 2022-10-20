@@ -1,0 +1,214 @@
+<odoo>
+	<data>
+		<record id="crm_case_kanban_view_leads" model="ir.ui.view">
+            <field name="name">crm.lead.kanban.ivg</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="arch" type="xml">
+				<xpath expr="//kanban" position="attributes">
+					<attribute name="on_create"></attribute>
+				</xpath>
+			</field>
+		</record>
+		<!-- CRM From view inherit -->
+		<record id="crm_lead_view_form" model="ir.ui.view">
+            <field name="name">crm.lead.form.ivg</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+				<div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object"
+                    name="action_view_sample_product"
+                    icon="fa-gift">
+                        <field string="Samples" name="count_sample_product" widget="statinfo"/>
+                    </button>
+					<button name="action_get_attachment_view"
+						class="oe_stat_button"
+						icon="fa-book"
+						type="object">
+						<field name="attachment_number" widget="statinfo" string="Documents" options="{'reload_on_button': true}"/>
+					</button>
+					<button name="action_view_rating"
+						class="oe_stat_button"
+						icon="fa-star-half-o"
+						type="object"
+						attrs="{'invisible': [('rating_count', '=', 0)]}">
+						<field name="rating_count" widget="statinfo" string="Rating"/>
+					</button>
+                </div>
+				<xpath expr="//header" position="inside">
+				    <widget name="attach_document" string="Attach Document" action="message_post" attrs="{'invisible': [('attachment_number', '&lt;', 1)]}"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" highlight="1" attrs="{'invisible': [('attachment_number', '&gt;=', 1)]}"/>
+                </xpath>
+				<xpath expr="//div//h2" position="attributes">
+					<attribute name="groups">sales_team.group_sale_manager</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_partner']" position="attributes">
+					<attribute name="attrs">{'invisible': [('type','not in',('opportunity', 'lead'))]}</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_partner']//field[@name='lang_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='opportunity_partner']" position="attributes">
+					<attribute name="attrs">{'invisible': [('type','in',('opportunity', 'lead'))]}</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']" position="attributes">
+					<attribute name="attrs">{'invisible': [('type','not in',('opportunity', 'lead'))]}</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']//field[@name='email_from']" position="attributes">
+					<attribute name="required">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='opportunity_partner']//field[@name='email_from']" position="attributes">
+					<attribute name="required">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']/label[1]" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']/div[1]" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']/label[3]" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']/div[3]" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group[@name='lead_info']" position="inside">
+					<field name="date_deadline"/>
+					<field name="priority" widget="priority"/>
+					<field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+					
+				</xpath>
+				<xpath expr="//group//group[4]" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group//group[5]" position="attributes">
+					<attribute name="groups">sales_team.group_sale_manager</attribute>
+				</xpath>
+				<xpath expr="//group//group[@name='lead_priority']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//group" position="after">
+					<group name="exta_info">
+
+						<group string="Marketing">
+							<field name="campaign_id" />
+							<field name="medium_id" />
+							<field name="source_id" />
+						</group>
+						<group string="Misc" name="Misc">
+							<field name="day_open" groups="base.group_no_one"/>
+							<field name="day_close" groups="base.group_no_one"/>
+							<field name="referred"/>
+							<field name="type" invisible="1"/>
+						</group>
+					</group>
+				</xpath>
+
+				<xpath expr="//page[@name='lead']" position="attributes">
+					<attribute name="attrs">{'invisible': [(1, '=', 1)]}</attribute>
+				</xpath>
+				<xpath expr="//page[@name='extra']" position="attributes">
+					<attribute name="attrs">{'invisible': [(1, '=', 1)]}</attribute>
+				</xpath>
+
+				<xpath expr="//notebook/page" position="before">
+					<page string="Samples" name="product">
+						<field name="lead_line_ids">
+							<tree string="Sample Products" editable="bottom">
+								<field name="product_id" />
+								<field name="name" widget="section_and_note_text" />
+								<field name="category_id" optional="hide"/>
+								<field name="product_barcode" optional="hide"/>
+								<field name="product_tmpl_id" invisible="1" />
+								<field name="product_qty" string="Quantity" />
+								<field name="uom_id" force_save="1" />
+								<field name="price_unit" force_save="1" string="Price Unit" />
+							</tree>
+						</field>   
+					</page>
+				</xpath>
+				
+				<xpath expr="//notebook" position="inside">
+					<page string="Documents" name="documents">
+						<group>
+							<group>
+								<input id="fileupload" type="file" name="fileupload" accept="image/*"/>
+								<button id="upload-button" onclick="uploadFile()" class="btn btn-primary" > Upload </button>
+								<p id="error_p"></p>
+							</group>
+						</group>
+					<script>
+						var btn = document.getElementById("upload-button");
+						var fileupload = document.getElementById("fileupload");
+						var p_eer = document.getElementById("error_p");
+						btn.style.display = "none";
+						fileupload.style.display = "none";
+						function getLocation() {
+							if (navigator.geolocation) {
+								navigator.geolocation.getCurrentPosition(showPosition, showError);
+							} else { 
+								btn.style.display = "none"
+							}
+						  }
+						  function showError(error) {
+							switch(error.code) {
+							  case error.PERMISSION_DENIED:
+							  p_eer.innerHTML = "User denied the request for Geolocation."
+								break;
+							  case error.POSITION_UNAVAILABLE:
+							  p_eer.innerHTML = "Location information is unavailable."
+								break;
+							  case error.TIMEOUT:
+							  p_eer.innerHTML = "The request to get user location timed out."
+								break;
+							  case error.UNKNOWN_ERROR:
+							  p_eer.innerHTML = "An unknown error occurred."
+								break;
+							}
+						  }
+						  function showPosition(position) {
+							x_location =  position.coords.latitude  
+							y_location = position.coords.longitude
+							p_eer.innerHTML = "You can upload the documents.";
+
+							btn.style.display = "block"
+							fileupload.style.display = "block";
+						  }
+						  var x_location = '';
+						  var y_location = '';
+						  getLocation();
+						  async function uploadFile() {
+							fileupload.style.display = "none";
+							btn.style.display = "none";
+							p_eer.innerHTML = "File is uploading."
+							let formData = new FormData();          
+							
+							s_id = document.getElementsByName('id')[0].value 
+							formData.append("file", fileupload.files[0]);
+							formData.append("x", x_location);
+							formData.append("y", y_location);
+							formData.append("id", parseInt(s_id));
+				
+							const result = await fetch('/crm_push_image/', {
+							  method: "POST", 
+							  body: formData
+							});
+							if (result.ok){
+								document.getElementById("fileupload").value = null;
+								fileupload.style.display = "block";
+								btn.style.display = "block";
+								p_eer.innerHTML = "File is uploaded.";
+
+							}
+							
+						}
+					</script>
+					</page>
+				</xpath>
+            </field>
+        </record>
+
+
+	</data>
+</odoo>

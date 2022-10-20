@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_attachment_tree">
+            <field name="name">ir.attachment.crm.inherit</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_tree"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="latitude" readonly="1"/>
+                    <field name="longitude" readonly="1"/>
+                    <field name="location" readonly="1"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
