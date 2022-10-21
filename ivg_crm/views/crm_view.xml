@@ -36,10 +36,10 @@
 						<field name="rating_count" widget="statinfo" string="Rating"/>
 					</button>
                 </div>
-				<xpath expr="//header" position="inside">
+				<!-- <xpath expr="//header" position="inside">
 				    <widget name="attach_document" string="Attach Document" action="message_post" attrs="{'invisible': [('attachment_number', '&lt;', 1)]}"/>
                     <widget name="attach_document" string="Attach Document" action="message_post" highlight="1" attrs="{'invisible': [('attachment_number', '&gt;=', 1)]}"/>
-                </xpath>
+                </xpath> -->
 				<xpath expr="//div//h2" position="attributes">
 					<attribute name="groups">sales_team.group_sale_manager</attribute>
 				</xpath>
@@ -55,13 +55,59 @@
 				<xpath expr="//group[@name='lead_info']" position="attributes">
 					<attribute name="attrs">{'invisible': [('type','not in',('opportunity', 'lead'))]}</attribute>
 				</xpath>
-				<xpath expr="//group[@name='lead_info']//field[@name='email_from']" position="attributes">
-					<attribute name="required">1</attribute>
+				<xpath expr="//group[@name='lead_info']" position="replace">
+					<group name="lead_info">
+
+					
+					<label for="contact_name"/>
+                                <div class="o_row">
+                                    <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}'/>
+                                    <field name="contact_name"/>
+                                </div>
+                                <field name="is_blacklisted" invisible="1"/>
+                                <field name="phone_blacklisted" invisible="1"/>
+                                <field name="email_state" invisible="1"/>
+                                <field name="phone_state" invisible="1"/>
+                                <field name="partner_email_update" invisible="1"/>
+                                <field name="partner_phone_update" invisible="1"/>
+                                <label for="email_from_group_lead_info" class="oe_inline"/>
+                                <div class="o_row o_row_readonly">
+                                    <button name="mail_action_blacklist_remove" class="fa fa-ban text-danger"
+                                        title="This email is blacklisted for mass mailings. Click to unblacklist."
+                                        type="object" context="{'default_email': email_from}" groups="base.group_user"
+                                        attrs="{'invisible': [('is_blacklisted', '=', False)]}"/>
+                                    <field name="email_from" id="email_from_group_lead_info" required="1" string="Email" widget="email"/>
+                                    <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
+                                        title="By saving this change, the customer email will also be updated."
+                                        attrs="{'invisible': [('partner_email_update', '=', False)]}"/>
+                                </div>
+                                <field name="email_cc" groups="base.group_no_one"/>
+                                <field name="function"/>
+                                <label for="phone_group_lead_info" class="oe_inline" invisible="1"/>
+                                <div class="o_row o_row_readonly" invisible="1">
+                                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                                        type="object" context="{'default_phone': phone}" groups="base.group_user"
+                                        attrs="{'invisible': [('phone_blacklisted', '=', False)]}"/>
+                                    <field name="phone" id="phone_group_lead_info" widget="phone"/>
+                                    <span class="fa fa-exclamation-triangle text-warning oe_edit_only"
+                                        title="By saving this change, the customer phone number will also be updated."
+                                        attrs="{'invisible': [('partner_phone_update', '=', False)]}"/>
+                                </div>
+                                <label for="mobile" class="oe_inline"/>
+                                <div class="o_row o_row_readonly">
+                                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                                        type="object" context="{'default_phone': mobile}" groups="base.group_user"
+                                        attrs="{'invisible': [('mobile_blacklisted', '=', False)]}"/>
+                                    <field name="mobile" widget="phone" string="Mobile"/>
+                                </div>
+							</group>
 				</xpath>
 				<xpath expr="//group[@name='opportunity_partner']//field[@name='email_from']" position="attributes">
 					<attribute name="required">1</attribute>
 				</xpath>
-				<xpath expr="//group[@name='lead_info']/label[1]" position="attributes">
+				<!-- <xpath expr="//group[@name='lead_info']/label[1]" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
 				<xpath expr="//group[@name='lead_info']/div[1]" position="attributes">
@@ -69,16 +115,16 @@
 				</xpath>
 				<xpath expr="//group[@name='lead_info']/label[3]" position="attributes">
 					<attribute name="invisible">1</attribute>
-				</xpath>
-				<xpath expr="//group[@name='lead_info']/div[3]" position="attributes">
+				</xpath> -->
+				<!-- <xpath expr="//group[@name='lead_info']/div[3]" position="attributes">
 					<attribute name="invisible">1</attribute>
-				</xpath>
-				<xpath expr="//group[@name='lead_info']" position="inside">
+				</xpath> -->
+				<!-- <xpath expr="//group[@name='lead_info']" position="inside">
 					<field name="date_deadline"/>
 					<field name="priority" widget="priority"/>
 					<field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
 					
-				</xpath>
+				</xpath> -->
 				<xpath expr="//group//group[4]" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
@@ -150,35 +196,39 @@
 							} else { 
 								btn.style.display = "none"
 							}
-						  }
-						  function showError(error) {
-							switch(error.code) {
-							  case error.PERMISSION_DENIED:
-							  p_eer.innerHTML = "User denied the request for Geolocation."
-								break;
-							  case error.POSITION_UNAVAILABLE:
-							  p_eer.innerHTML = "Location information is unavailable."
-								break;
-							  case error.TIMEOUT:
-							  p_eer.innerHTML = "The request to get user location timed out."
-								break;
-							  case error.UNKNOWN_ERROR:
-							  p_eer.innerHTML = "An unknown error occurred."
-								break;
-							}
-						  }
-						  function showPosition(position) {
-							x_location =  position.coords.latitude  
-							y_location = position.coords.longitude
-							p_eer.innerHTML = "You can upload the documents.";
+						}
+						function showError(error) {
+						switch(error.code) {
+							case error.PERMISSION_DENIED:
+							p_eer.innerHTML = "User denied the request for Geolocation."
+							break;
+							case error.POSITION_UNAVAILABLE:
+							p_eer.innerHTML = "Location information is unavailable."
+							break;
+							case error.TIMEOUT:
+							p_eer.innerHTML = "The request to get user location timed out."
+							break;
+							case error.UNKNOWN_ERROR:
+							p_eer.innerHTML = "An unknown error occurred."
+							break;
+						}
+						}
+						function showPosition(position) {
+						x_location =  position.coords.latitude  
+						y_location = position.coords.longitude
+						p_eer.innerHTML = "You can upload the documents.";
 
-							btn.style.display = "block"
-							fileupload.style.display = "block";
-						  }
-						  var x_location = '';
-						  var y_location = '';
-						  getLocation();
-						  async function uploadFile() {
+						btn.style.display = "block"
+						fileupload.style.display = "block";
+						}
+						var x_location = '';
+						var y_location = '';
+						getLocation();
+						async function uploadFile() {
+							if (! fileupload.files[0]){
+								alert('File is missing.');
+								return;
+							}
 							fileupload.style.display = "none";
 							btn.style.display = "none";
 							p_eer.innerHTML = "File is uploading."
@@ -191,8 +241,8 @@
 							formData.append("id", parseInt(s_id));
 				
 							const result = await fetch('/crm_push_image/', {
-							  method: "POST", 
-							  body: formData
+								method: "POST", 
+								body: formData
 							});
 							if (result.ok){
 								document.getElementById("fileupload").value = null;
